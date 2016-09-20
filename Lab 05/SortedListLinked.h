@@ -15,7 +15,8 @@ class SortedListLinked
       NextNode<T>* head;
       int sze;
 
-      NextNode<T>** find(T* item);
+      NextNode<T>** findAdd(T* item);
+	  NextNode<T>** findRemove(T* item);
 
       //this is how to declare a function pointer using templates
       int (*compare_items) (T* item_1, T* item_2);
@@ -97,21 +98,42 @@ T* SortedListLinked<T>::get(int index)
 }
 
 template < class T >
-NextNode<T>** SortedListLinked<T>::find(T* item)
+NextNode<T>** SortedListLinked<T>::findAdd(T* item)
 {
    NextNode<T>* prev = NULL;
    NextNode<T>* curr = head;
 
    //DO THIS
    //loop to find the correct location to insert/remove item
+	while (curr != NULL && (*compare_items) (item, curr->getItem()) > 0)
+	{
+		prev = curr;
+		curr = curr->getNext();
+	}
 
+   //could simply return prev and compute curr, but prev might be null
+   //this way results in somewhat simpler code in add and remove
+   NextNode<T>** nodes = new NextNode<T>*[2];
+   nodes[0] = prev;
+   nodes[1] = curr;
 
+   return nodes;
+}
 
-
-
-
-
-
+// Modified find method for removing items. NOTE: Be sure to modify code.
+template < class T >
+NextNode<T>** SortedListLinked<T>::findRemove(T* item)
+{
+   NextNode<T>* prev = NULL;
+   NextNode<T>* curr = head;
+   
+   //DO THIS
+   //loop to find the correct location to insert/remove item
+	while (curr != NULL && (*compare_items) (item, curr->getItem()) != 0)
+	{
+		prev = curr;
+		curr = curr->getNext();
+	}
 
    //could simply return prev and compute curr, but prev might be null
    //this way results in somewhat simpler code in add and remove
@@ -135,26 +157,22 @@ void SortedListLinked<T>::add(T* item)
       return;
    }
 
-   NextNode<T>** nodes = find(item);
+   NextNode<T>** nodes = findAdd(item);
    NextNode<T>* prev = nodes[0];
    NextNode<T>* curr = nodes[1];
    delete[] nodes;
 
    //DO THIS
    //adding to the top of the list (check prev)
-   if (           )
+   if (prev == NULL)
    {
-
-
-
-
+		node->setNext(curr);
+		head = node;
    }
    else    //general add
    {
-
-
-
-
+		prev->setNext(node);
+		node->setNext(curr);
    }
 
    sze++;
@@ -169,7 +187,7 @@ void SortedListLinked<T>::remove(T* item)
       return;  //nothing to delete
    }
 
-   NextNode<T>** nodes = find(item);
+   NextNode<T>** nodes = findRemove(item);
    NextNode<T>* prev = nodes[0];
    NextNode<T>* curr = nodes[1];
    delete[] nodes;
@@ -187,26 +205,22 @@ void SortedListLinked<T>::remove(T* item)
    int compare = (*compare_items) (item, curr->getItem());
 
    //determine whether the item to be removed is present
-   if (                       )
+   if (compare != 0)
    {
       return;  //item not present
    }
 
    //DO THIS
    //removing the top item (check prev)
-   if (         )
+   if (prev == NULL)
    {
-
-
-
-
+		head = curr->getNext();
+		delete curr;
    }
    else  //general remove
    {
-
-
-
-
+		prev = curr->getNext();
+		delete curr;
    }
 
    delete curr;
