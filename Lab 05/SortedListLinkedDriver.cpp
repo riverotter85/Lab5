@@ -13,7 +13,9 @@ void addCDs(ListArray<CD>* list, SortedListLinked<CD>* sll)
    //DO THIS
    //iterate over and add the cds to the list box (use lb->addItem)
 
-
+   while (iter->hasNext()){
+      add(iter->next());
+   }
 
 
    delete iter;
@@ -25,7 +27,11 @@ void deleteCDs(ListArray<CD>* list)
 
    //DO THIS  
    //iterate over and delete the cds
-
+   
+   
+   while(iter->hasNext()){
+      remove(iter->next());
+   }
 
 
 
@@ -40,9 +46,14 @@ int main()
    //DO THIS
    //create the sorted linked list
    
+   SortedListLinked<CD> *sll = new SortedListLinked<CD>(&CD::compare_items);
+   
+   addCDs(cds, sll);
    
    
    
+   delete sll;
+   delete cds;
    deleteCDs(cds);
 
 
