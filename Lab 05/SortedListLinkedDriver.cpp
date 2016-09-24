@@ -23,16 +23,17 @@ void addCDs(ListArray<CD>* list, SortedListLinked<CD>* sll)
 
 void deleteCDs(ListArray<CD>* list)
 {
-   //ListArrayIterator<CD>* iter = list->iterator();
+   ListArrayIterator<CD>* iter = list->iterator();
 
    //DO THIS  
    //iterate over and delete the cds
    
-   list->removeAll();
+   while (iter->hasNext())
+   {
+	   delete iter->next();
+   }
 
-
-
-   //delete iter;
+   delete iter;
 }
 
 //DO THIS
