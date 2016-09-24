@@ -14,7 +14,7 @@ void addCDs(ListArray<CD>* list, SortedListLinked<CD>* sll)
    //iterate over and add the cds to the list box (use lb->addItem)
 
    while (iter->hasNext()){
-      add(iter->next());
+      list->add(iter->next());
    }
 
 
@@ -30,7 +30,7 @@ void deleteCDs(ListArray<CD>* list)
    
    
    while(iter->hasNext()){
-      remove(iter->next());
+      list->remove(iter->next());
    }
 
 
